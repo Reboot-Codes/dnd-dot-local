@@ -1,0 +1,21 @@
+{
+  "name": "dnd-dot-local",
+  "version": "1.0.0",
+  "description": "Like D&D Beyond, but local.",
+  "main": "index.js",
+  "author": "Reboot-Codes <git@reboot-codes.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "axios": "^1.2.2",
+    "dayjs": "^1.11.7",
+    "next": "^13.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
