@@ -2,6 +2,8 @@
 
 Like D&D Beyond, but local.
 
+> Note: DND.Local is not ready for usage yet! We're working hard to get it ready, but for the time being, you'll have to use something like [D&D Beyond](https://dndbeyond.com). Check back for updates on development and features. - Reboot
+
 Designed to be super easy to use and run multiple sessions with persistent memory for longer games. Super simple to setup too, just 1 docker compose command and you're off to the races! (No setup needed, just create a game as a DM.)
 
 ## Install

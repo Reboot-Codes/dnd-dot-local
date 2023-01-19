@@ -6,6 +6,11 @@
   "author": "Reboot-Codes <git@reboot-codes.com>",
   "license": "MIT",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
