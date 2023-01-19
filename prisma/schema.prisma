@@ -1,0 +1,253 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          BigInt   @id @default(autoincrement())
+  joined      DateTime @default(now())
+  lastActive  DateTime @default(now())
+  email       String   @unique
+  username    String
+  displayName String
+
+  characters            Character[]          @relation("CharacterOwner")
+  dungeonMasterFor      Game[]               @relation("DungeonMaster")
+  createdLanguges       Language[]           @relation("CreatedLanguage")
+  createdClasses        Class[]              @relation("CreatedClass")
+  createdNPC            NonPlayerCharacter[] @relation("CreatedNPC")
+  createdEquipmentTypes EquipmentType[]      @relation("CreatedEquipmentType")
+  createdEquipmentItem  EquipmentItem[]      @relation("CreatedEquipmentItem")
+  createdWeaponTypes    WeaponType[]         @relation("CreatedWeaponType")
+  createdWeaponItem     WeaponItem[]         @relation("CreatedWeaponItem")
+}
+
+model Game {
+  id          BigInt   @id @default(autoincrement())
+  created     DateTime @default(now())
+  lastUpdated DateTime @updatedAt
+  name        String
+  master      User     @relation("DungeonMaster", fields: [masterId], references: [id])
+  masterId    BigInt
+
+  party          Character[]          @relation("CharactersJoinedGame")
+  statuses       Status[]             @relation("GameStatus")
+  npcs           NonPlayerCharacter[] @relation("NPCsInUniverse")
+  races          Race[]               @relation("RacesInUniverse")
+  languages      Language[]           @relation("LanguagesInUniverse")
+  classes        Class[]              @relation("ClassesInUniverse")
+  equipment      EquipmentItem[]      @relation("EquipmentItemsInUniverse")
+  equipmentTypes EquipmentType[]      @relation("EquipmentTypesInUniverse")
+  weapon         WeaponItem[]         @relation("WeaponItemsInUniverse")
+  weaponTypes    WeaponType[]         @relation("WeaponTypesInUniverse")
+  proficiencies  Proficiency[]        @relation("ProficienciesInUniverse")
+  modifierTypes  ModifierType[]       @relation("ModifierTypesInUniverse")
+}
+
+model Character {
+  id          BigInt   @id @default(autoincrement())
+  created     DateTime @default(now())
+  lastUpdated DateTime @updatedAt
+  createdBy   User     @relation("CharacterOwner", fields: [createdById], references: [id])
+  createdById BigInt
+  games       Game[]   @relation("CharactersJoinedGame")
+  statuses    Status[] @relation("CharacterStatus")
+
+  name              String
+  race              Race          @relation("CharacterHasRace", fields: [raceId], references: [id])
+  raceId            BigInt
+  // Automatically filled out with default languages from race.defaultLanguages
+  languages         Language[]    @relation("SpokenByCharacter")
+  // Up to the user to define.
+  gender            String
+  // Specified in Centimetres.
+  height            Float
+  // Specified in Grams.
+  weight            Float
+  description       String
+  class             Class[]         @relation("CharacterClass")
+  alignment         String
+  personalityTrait1 String?
+  personalityTrait2 String?
+  ideal             String?
+  flaw              String?
+  bonds             Bond[]        @relation("CharacterBondedWith")
+  // Max 2
+  proficiencies     Proficiency[] @relation("CharacterProficiencies")
+}
+
+model NonPlayerCharacter {
+  id          BigInt   @id @default(autoincrement())
+  created     DateTime @default(now())
+  lastUpdated DateTime @updatedAt
+  createdBy   User     @relation("CreatedNPC", fields: [createdById], references: [id])
+  createdById BigInt
+  games       Game[]   @relation("NPCsInUniverse")
+
+  name              String
+  race              Race       @relation("NPCHasRace", fields: [raceId], references: [id])
+  raceId            BigInt
+  // Automatically filled out with default languages from race.defaultLanguages
+  languages         Language[] @relation("SpokenByNPC")
+  // Up to the dungeon master to define
+  gender            String
+  // specified in centimetres
+  height            Float
+  // specified in grams
+  weight            Float
+  description       String
+  alignment         String
+  personalityTrait1 String?
+  personalityTrait2 String?
+  ideal             String?
+  flaw              String?
+  bonds             Bond[]     @relation("NPCBondedWith")
+}
+
+model Status {
+  id          BigInt    @id @default(autoincrement())
+  created     DateTime  @default(now())
+  lastUpdated DateTime  @updatedAt
+  Character   Character @relation("CharacterStatus", fields: [CharacterId], references: [id])
+  CharacterId BigInt
+  game        Game      @relation("GameStatus", fields: [gameId], references: [id])
+  gameId      BigInt
+
+  level     Int
+  bank      Float
+  modifiers Modifier[]      @relation("CharacterHasModifier")
+  equipment EquipmentItem[] @relation("CharacterHasEquipment")
+  weapons   WeaponItem[]    @relation("CharacterHasWeapon")
+}
+
+model ModifierType {
+  id        BigInt     @id @default(autoincrement())
+  appliesTo Modifier[] @relation("ModifierHasType")
+  name      String     @unique
+  usedIn    Game[]     @relation("ModifierTypesInUniverse")
+}
+
+model Modifier {
+  id          BigInt       @id @default(autoincrement())
+  type        ModifierType @relation("ModifierHasType", fields: [typeId], references: [id])
+  typeId      BigInt
+  appliesTo   Status       @relation("CharacterHasModifier", fields: [appliesToId], references: [id])
+  appliesToId BigInt
+  value       Float        @default(0)
+}
+
+model Class {
+  id          BigInt      @id @default(autoincrement())
+  createdBy   User        @relation("CreatedClass", fields: [createdById], references: [id])
+  createdById BigInt
+  playedBy    Character[] @relation("CharacterClass")
+  usedIn      Game[]      @relation("ClassesInUniverse")
+
+  name             String
+  description      String?
+  primaryAbility   String?
+  hitDie           String?
+  savingThrow      String?
+  allowedEquipmentTypes EquipmentType[] @relation("ClassCanUseEquipmentType")
+  allowedWeaponTypes   WeaponType[]    @relation("ClassCanUseWeaponType")
+}
+
+model Race {
+  id        BigInt               @id @default(autoincrement())
+  usedBy    Character[]          @relation("CharacterHasRace")
+  usedByNPC NonPlayerCharacter[] @relation("NPCHasRace")
+  usedIn    Game[]               @relation("RacesInUniverse")
+
+  name             String
+  description      String?
+  defaultLanguages Language[]    @relation("DefaultRaceLanguages")
+  proficiencies    Proficiency[] @relation("DefaultRaceProficiencies")
+}
+
+model Language {
+  id                BigInt               @id @default(autoincrement())
+  defaultSpokenBy   Race[]               @relation("DefaultRaceLanguages")
+  spokenByCharacter Character[]          @relation("SpokenByCharacter")
+  spokenByNPC       NonPlayerCharacter[] @relation("SpokenByNPC")
+  usedIn            Game[]               @relation("LanguagesInUniverse")
+  createdBy         User                 @relation("CreatedLanguage", fields: [createdById], references: [id])
+  createdById       BigInt
+
+  name   String
+  script String?
+}
+
+model EquipmentType {
+  id          BigInt          @id @default(autoincrement())
+  createdBy   User            @relation("CreatedEquipmentType", fields: [createdById], references: [id])
+  createdById BigInt
+  appliesTo   EquipmentItem[] @relation("EquipmentTags")
+  usedBy      Class[]         @relation("ClassCanUseEquipmentType")
+  usedIn      Game[]          @relation("EquipmentTypesInUniverse")
+  name        String
+  description String?
+}
+
+model EquipmentItem {
+  id          BigInt        @id @default(autoincrement())
+  createdBy   User          @relation("CreatedEquipmentItem", fields: [createdById], references: [id])
+  createdById BigInt
+  usedIn      Game[]        @relation("EquipmentItemsInUniverse")
+  ownedBy     Status[]      @relation("CharacterHasEquipment")
+  type        EquipmentType @relation("EquipmentTags", fields: [typeId], references: [id])
+  typeId      BigInt
+
+  name        String
+  description String?
+}
+
+model WeaponType {
+  id          BigInt       @id @default(autoincrement())
+  createdBy   User         @relation("CreatedWeaponType", fields: [createdById], references: [id])
+  createdById BigInt
+  appliesTo   WeaponItem[] @relation("WeaponTags")
+  usedBy      Class[]      @relation("ClassCanUseWeaponType")
+  usedIn      Game[]       @relation("WeaponTypesInUniverse")
+
+  name        String
+  description String?
+}
+
+model WeaponItem {
+  id          BigInt     @id @default(autoincrement())
+  createdBy   User       @relation("CreatedWeaponItem", fields: [createdById], references: [id])
+  createdById BigInt
+  usedIn      Game[]     @relation("WeaponItemsInUniverse")
+  ownedBy     Status[]   @relation("CharacterHasWeapon")
+  type        WeaponType @relation("WeaponTags", fields: [typeId], references: [id])
+  typeId      BigInt
+
+  name        String
+  description String?
+}
+
+model Bond {
+  id                  BigInt               @id @default(autoincrement())
+  characters          Character[]          @relation("CharacterBondedWith")
+  nonplayercharacters NonPlayerCharacter[] @relation("NPCBondedWith")
+
+  name        String
+  description String?
+}
+
+model Proficiency {
+  id             BigInt      @id @default(autoincrement())
+  possibleByRace Race[]      @relation("DefaultRaceProficiencies")
+  coveredBy      Character[] @relation("CharacterProficiencies")
+  usedIn         Game[]      @relation("ProficienciesInUniverse")
+
+  name        String
+  description String?
+}

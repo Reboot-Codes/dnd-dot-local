@@ -1,3 +1,4 @@
+import NavBar from "../components/navigation/NavBar";
 import "../styles/globals.scss";
 
 export default function RootLayout({
@@ -8,7 +9,12 @@ export default function RootLayout({
   return (
     <html>
       <head />
-      <body>{children}</body>
+      <body>
+        <NavBar />
+        <div className="mt-16">
+          {children}
+        </div>
+      </body>
     </html>
   )
 }
