@@ -1,58 +1,7 @@
-// Import my style system
-@import './style-system/colors.scss';
-@import './style-system/fonts.scss';
-@import './style-system/reset.scss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-// Import markdown styles
-@import './markdown.scss';
-// Import prism styles
-@import './prism/light-prism.scss';
-@import './prism/dark-prism.scss';
-
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--gray-900);
-    color: var(--white);
-  }
-  :root {
-    --bg: var(--gray-900);
-    --color: var(--white);
-    --contrast: var(--gray-700);
-  }
-
-  @include dark-prism;
-}
-
-@media (prefers-color-scheme: light) {
-  body {
-    background-color: var(--white);
-    color: var(--black);
-  }
-  :root {
-    --bg: var(--white);
-    --color: var(--black);
-    --contrast: var(--gray-50);
-  }
-
-  @include light-prism;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .transition {
-    -webkit-transition: all 0.3s ease 0.05s;
-    transition: all 0.3s ease 0.05s;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  }
-}
-
-.custom-img {
-  object-fit: contain;
-  width: 100% !important;
-  position: relative !important;
-  height: unset !important;
-}
-
-img.emoji {
-  height: 1em;
-  width: 1em;
+body {
+  @apply bg-zinc-200 text-black dark:bg-zinc-800 dark:text-white;
 }

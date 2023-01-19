@@ -1,5 +1,11 @@
 import React from 'react';
 
 export default function Page() {
-  return <h1 className="text-blue-800">Hello World!</h1>;
+  return (
+    <div className="w-full">
+      <div className="mx-auto w-[90%] px-3">
+        <h1 className="text-xl">Hello World!</h1>
+      </div>
+    </div>
+  );
 }
