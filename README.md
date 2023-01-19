@@ -2,17 +2,20 @@
 
 Like D&D Beyond, but local.
 
-> Note: DND.Local is not ready for usage yet! We're working hard to get it ready, but for the time being, you'll have to use something like [D&D Beyond](https://dndbeyond.com). Check back for updates on development and features. - Reboot
+> Note: DND.Local is not ready for usage yet! We're working hard to get it ready, but for the time being, you'll have to use something like [D&D Beyond](https://dndbeyond.com). Check back for updates on development and features. 
+> - Reboot
 
 Designed to be super easy to use and run multiple sessions with persistent memory for longer games. Super simple to setup too, just 1 docker compose command and you're off to the races! (No setup needed, just create a game as a DM.)
 
 ## Install
 
+DND.Local is designed to be as user friendly as possible, but you still need to run it "somewhere".
+
 ### EZ-Mode
 
 Just clone this repository to "somewhere", make sure you have docker running and `docker-compose` in your path; then run `docker-compose up` in the root of the repository. (We use port 6868 which translates to "DD" in ASCII. Feel free to change the ports to whatever you want.)
 
-## Try Hard
+### Try Hard
 
 You'll need the latest LTS version of `node`, and `yarn`. Clone this repository "somewhere", then run `yarn install`, `yarn build`, and `yarn start` which will spin up a web server on port 3000 (the default for Next.js's built-in server).
 

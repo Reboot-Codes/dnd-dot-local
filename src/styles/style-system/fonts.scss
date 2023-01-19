@@ -1,0 +1,100 @@
+// Relative Type Scale
+// https://blog.envylabs.com/responsive-typographic-scales-in-css-b9f60431d1c4
+:root {
+  --step-up-6: 2.1487em;
+  --step-up-5: 2em;
+  --step-up-4: 1.7511em;
+  --step-up-3: 1.5157em;
+  --step-up-2: 1.3195em;
+  --step-up-1: 1.1487em;
+  --baseline: 1em;
+  --step-down-1: 0.8706em;
+  --step-down-2: 0.7579em;
+  --step-down-3: 0.6599em;
+  --step-down-4: 0.5745em;
+  --step-down-5: 0.5em;
+  --step-down-6: 0.3513em;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 1rem;
+}
+
+// Define the "system" font family
+// Fastest loading font - the one native to their device
+@font-face {
+  font-family: system;
+  font-style: normal;
+  font-weight: 300;
+  src: local('SF Pro'), local('Roboto'), local('.HelveticaNeueDeskInterface'), local('.LucidaGrandeUI'),
+    local('Ubuntu Light'), local('Segoe UI'), local('DroidSans'), local('Tahoma');
+}
+
+// Define the 'SF Pro' font family.
+// Used for displaying general text.
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: bold;
+  src: url('../fonts/SFProDisplay-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: heavy;
+  src: url('../fonts/SFProDisplay-Heavy.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: normal;
+  src: url('../fonts/SFProDisplay-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: regular;
+  src: url('../fonts/SFProDisplay-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: light;
+  src: url('../fonts/SFProDisplay-Light.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro';
+  font-weight: thin;
+  src: url('../fonts/SFProDisplay-Thin.ttf');
+}
+
+// Define the "Fira Code" font family.
+// Used for any formatted code.
+@font-face {
+  font-family: 'Fira Code';
+  font-weight: bold;
+  src: url('../fonts/FiraCode-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  font-weight: bolder;
+  src: url('../fonts/FiraCode-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  font-weight: normal;
+  src: url('../fonts/FiraCode-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Fira Code';
+  font-weight: light;
+  src: url('../fonts/FiraCode-Medium.ttf');
+}

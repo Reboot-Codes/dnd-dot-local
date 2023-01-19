@@ -1,0 +1,60 @@
+// Modern CSS Reset
+// https://alligator.io/css/minimal-css-reset/
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul,
+input[type='text'],
+input[type='email'],
+button {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul,
+input[type='text'],
+input[type='email'],
+button {
+  font-family: 'SF Pro', 'system';
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+// Links
+a {
+  color: inherit;
+  text-decoration: none;
+  &.active {
+    text-decoration: none;
+  }
+}
